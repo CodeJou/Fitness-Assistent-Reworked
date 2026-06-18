@@ -5,7 +5,7 @@ public class fitness_assistent_reworked {
 	public static void main(String[] args) {
 		// Hier startet der überarbeitete Code des Fitness Assistenten
 		
-	//(1) BEGRÜßUNG
+	//(1) Begrüßung
 	System.out.println("Hallo, ich bin dein Fitnessassistent. Wie heißt du?");
 	Scanner scanner = new Scanner(System.in);
 	String name = scanner.nextLine();
@@ -13,7 +13,7 @@ public class fitness_assistent_reworked {
 	System.out.println("Hey "+name+", hier kannst du deinen BMI (Body-Mass-Index) berechnen.");
 
 	
-	//(2) ABFRAGE GRÖßE
+	//(2) Abfrage Größe
 	System.out.println("Wie größ bist du? (z.B 1.64 m)");
 			
 	//(2) Variablen deklarieren
@@ -54,7 +54,7 @@ public class fitness_assistent_reworked {
 		 }
 	  }	
     
-	//(3) ABFRAGE GEWICHT
+	//(3) Abfrage Gewicht
 	System.out.println("");
 	System.out.println("Wieviel wiegst du? (Gib dein Gewicht in kg an)");
 		
@@ -79,7 +79,7 @@ public class fitness_assistent_reworked {
 	  Gewicht = Double.parseDouble(gewicht);
 		}
     
-	//(4) ABFRAGE ALTER                               
+	//(4) Abfrage Alter                               
 	System.out.println("");
 	System.out.println("Wie alt bist du? (Runde dein Alter auf eine ganze Zahl auf)");
 		
@@ -105,7 +105,7 @@ public class fitness_assistent_reworked {
 		
 	scanner.nextLine();//scanner leeren
     
-	//(5) ABFRAGE GESCHLECHT
+	//(5) Abfrage Geschlecht
 	System.out.println("");
 	System.out.println("Was möchtest du für ein Geschlecht angeben?");
 	System.out.println("Folgende Auswahlmöglichkeiten hast du:");
@@ -170,8 +170,7 @@ public class fitness_assistent_reworked {
 	
 	//(7) BMI berechnen
 	double bmi;
-	bmi = Gewicht/(Größe*Größe);
-	bmi = Math.round(bmi*100.0)/100.0;//Auf zwei Nachkommastellen runden. 
+	bmi = berechneBMI (Gewicht,Größe); 
 	
 	//(7) Altersgruppe festlegen
 	String Altersgruppe;
@@ -210,7 +209,7 @@ public class fitness_assistent_reworked {
 	double BMIübergewicht_og;
 	double BMIadipositas;
 	
-	//BMI Wert abhängig vom Alter zuordnen 
+	//(8) BMI Wert abhängig vom Alter zuordnen 
 	
 	if (Altersgruppe==AltersgruppeA)
 	{ BMInormalgewicht_ug = 19.00;
@@ -231,13 +230,13 @@ public class fitness_assistent_reworked {
 	{ BMInormalgewicht_ug = 24.00;
 	  }
 	
-	//BMI Werte für die Tabelle errechnen
+	//(8) BMI Werte für die Tabelle errechnen
 	  BMInormalgewicht_og = berechnehöherenBMI(BMInormalgewicht_ug);
 	  BMIübergewicht_ug   = BMInormalgewicht_og+0.1;//Untere Grenze der nächsthöheren klasse sind plus 0.1
 	  BMIübergewicht_og   = BMInormalgewicht_og+5;//
 	  BMIadipositas       = BMIübergewicht_og+0.1;
 	
-	//Gewichte für die Tabelle errechnen
+	//(8) Gewichte für die Tabelle errechnen
 	double normalgewicht_ug = BMInormalgewicht_ug*(Größe*Größe); 
 	normalgewicht_ug = Math.round(normalgewicht_ug*10)/10;
 	
@@ -251,7 +250,7 @@ public class fitness_assistent_reworked {
 	
 	double adipositas = übergewicht_og+0.1;
 	
-	//BMI Wert der passenden Kategorie zuordnen
+	//(8) BMI Wert der passenden Kategorie zuordnen
 	String einordnungBMI;
 	
 	if (bmi<BMInormalgewicht_ug)
@@ -266,11 +265,8 @@ public class fitness_assistent_reworked {
 	else 
 	{ einordnungBMI = " → Adipositas";}
 
-	
-	//(8) Grundumsatz/Leistungsumsatz ermitteln
+	//(9) Aktivitätsfaktor PAL dem entsprechenden Wert zuordnen 
 	double PAL_Wert;//Variable zur Einordnung der Angabe zum Aktivitätsniveau
-	
-	//(8) Aktivitätsfaktor PAL dem entsprechenden Wert zuordnen 
 	if (PAL==1)
 	{ PAL_Wert = 1.4;} 
 	else if (PAL==2)
@@ -280,36 +276,20 @@ public class fitness_assistent_reworked {
 	else
 	{ PAL_Wert = 2.0;}
 	
-	//(8) Grundumsatz  berechnen mit Mifflin-St.Jeor-Formel
-	double Größe_cm = Größe*100;
-	int faktorGeschlecht;
-	double Grundumsatz = (10*Gewicht)+(6.25*Größe_cm)-(5*alter);
+	//(9) Grundumsatz berechnen 
+	int Grundumsatz;
+	Grundumsatz = berechneGrundumsatz(Gewicht,Größe,alter,geschlecht);
 	
-	if (geschlecht=="männlich")
-	{ Grundumsatz = Grundumsatz+5;}
-	else if (geschlecht=="weiblich")
-	{ Grundumsatz = Grundumsatz-161;}
-	else
-	{ Grundumsatz = Grundumsatz-83;}//Bei Eingabe divers wird der Mittelwert berechnet
+	//(9) Leistungsumsatz berechnen
+	int Leistungsumsatz;
+	Leistungsumsatz = berechneLeistungsumsatz(Grundumsatz,PAL_Wert);
 	
-    int GUgerundet = (int)Grundumsatz;//Alles hinter dem Komma wird "abgeschnitten"
+	//(9) Gesamtumsatz berechnen
+	int Gesamtumsatz = Grundumsatz+Leistungsumsatz;
 	
-	//(8) Leistungsumsatz mit PAL Wert berechnen
-	double Leistungsumsatz = Grundumsatz*(PAL_Wert-1);
-	int LUgerundet = (int)Leistungsumsatz;//alles hinterm Komma wird "abgeschnitten"
+	// AB HIER AUFLISTUNG
 	
-	//(8) Gesamtumsatz berechnen
-	int Gesamtumsatz = GUgerundet+LUgerundet;
-	
-	//(9) Nährstoffzusammensetzung berechnen (Anhand der Richtwerte der DGE)
-	double KH = Gesamtumsatz*0.50;//50% Kohlenhydrate
-	int KHgerundet = (int)KH;
-	double E  = Gesamtumsatz*0.20;//20% Eiweiß
-	int Egerundet = (int)E;
-	double F  = Gesamtumsatz*0.30;//30% Fett
-	int Fgerundet = (int)F;
-	
-	//(9) Aufführung der eingegebenen Parameter
+	// Aufführung der eingegebenen Parameter
 	System.out.println("");
 	System.out.println("");
 	System.out.println("————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————");
@@ -324,9 +304,7 @@ public class fitness_assistent_reworked {
 	System.out.println("                  Geschlecht : "+geschlecht);
 	System.out.println("");
 	
-	
-	
-	//(10) Tabelle BMI ausgeben
+	//(8) Tabelle BMI ausgeben
 	System.out.println("");
 	System.out.println("                  Dein BMI   : "+bmi+einordnungBMI);
 	System.out.println("                  Der BMI für die "+Altersgruppe+" wird folgendermaßen interpretiert:");
@@ -340,7 +318,7 @@ public class fitness_assistent_reworked {
 	System.out.println("                      Adipositas    >"+BMIadipositas+                               "         ⁞ ab    "+adipositas+" Kg");
 	System.out.println("                  …………………………………………………………………………………………………………………………………………     ");
 				
-    //(11) Angabe zum Grundumsatz
+    //(9) Angabe zum Grundumsatz
 	System.out.println("");
 	if (geschlecht=="divers")
    {System.out.println("         [ Info ] Die Mifflin-St. Jeor-Formel berechnet den Grundumsatz anhand des angegebenen Geschlechts.");
@@ -355,21 +333,15 @@ public class fitness_assistent_reworked {
 	System.out.println("                  Leistungsumsatz sowie Gesamtumsatz wie folgt berechnet :");
 	System.out.println("");
 	System.out.println("");
-	System.out.println("                  Dein Grundumsatz beträgt     → "+GUgerundet+" kcal pro Tag (Energiebedarf in Ruhe)");
-	System.out.println("                  Dein Leistungsumsatz beträgt → "+LUgerundet+" kcal pro Tag (Energiebedarf zusätzlich durch Aktivitätsniveau)");
+	System.out.println("                  Dein Grundumsatz beträgt     → "+Grundumsatz+" kcal pro Tag (Energiebedarf in Ruhe)");
+	System.out.println("                  Dein Leistungsumsatz beträgt → "+Leistungsumsatz+" kcal pro Tag (Energiebedarf zusätzlich durch Aktivitätsniveau)");
 	System.out.println("");
 	System.out.println("                  Dein Gesamtumsatz beträgt    → "+Gesamtumsatz+" kcal pro Tag (Gesamter Energiebedarf)");
 	System.out.println("");
 	System.out.println("");
-	System.out.println("                  …………………………………………………………………………………………………………………………………………     ");
-	System.out.println("                        NÄHRSTOFFGRUPPE           VERTEILUNG");
-	System.out.println("                  …………………………………………………………………………………………………………………………………………     ");
-	System.out.println("                        Kohlenhydrate (50%)	⁞  "+KHgerundet+" kcal/täglich");
-	System.out.println("                        Fette         (30%)	⁞  "+Fgerundet+" kcal/täglich");
-	System.out.println("                        Eiweß         (20%)	⁞  "+Egerundet+" kcal/täglich");
-	System.out.println("                  …………………………………………………………………………………………………………………………………………     ");
-	System.out.println("");
-	System.out.println("");
+	
+	//(9) Ausgabe der Tabelle durch Methode
+	berechneMakros(Gesamtumsatz);
 	System.out.println("————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————");
 	System.out.println("");
 	System.out.println("");
@@ -415,7 +387,53 @@ public static String pruefeGewicht(String gewicht)
 public static double berechnehöherenBMI (double BMInormalgewicht_ug)
 {  double nächsteKlasse = BMInormalgewicht_ug+5;
    return nächsteKlasse;
+}
+public static double berechneBMI (double Gewicht, double Größe)
+{ double bmi;
+  bmi = Gewicht/(Größe*Größe);
+  bmi = Math.round(bmi*100.0)/100.0;//Auf zwei Nachkommastellen runden.
 
-
+  return bmi;
+}
+public static int berechneGrundumsatz (double Gewicht,double Größe,int alter,String geschlecht)
+{
+	double Größe_cm = Größe*100;
+	double Grundumsatz_d = (10*Gewicht)+(6.25*Größe_cm)-(5*alter);
+	
+	if (geschlecht=="männlich")
+	{ Grundumsatz_d = Grundumsatz_d+5;}
+	else if (geschlecht=="weiblich")
+	{ Grundumsatz_d = Grundumsatz_d-161;}
+	else
+	{ Grundumsatz_d = Grundumsatz_d-83;}//Bei Eingabe divers wird der Mittelwert berechnet
+	
+    int Grundumsatz = (int)Grundumsatz_d;//Alles hinter dem Komma wird "abgeschnitten"
+    
+    return Grundumsatz ;
+}
+public static int berechneLeistungsumsatz(int Grundumsatz, double PAL_Wert)
+{   double Leistungsumsatz_d = Grundumsatz*(PAL_Wert-1);
+    int Leistungsumsatz = (int)Leistungsumsatz_d;//alles hinterm Komma wird "abgeschnitten"
+	
+    return Leistungsumsatz;
+}
+public static void berechneMakros(int Gesamtumsatz)
+{// Nährstoffzusammensetzung berechnen (Anhand der Richtwerte der DGE)
+	double KH_d = Gesamtumsatz*0.50;//50% Kohlenhydrate
+	int KH = (int)KH_d;
+	double E_d  = Gesamtumsatz*0.20;//20% Eiweiß
+	int E = (int)E_d;
+	double F_d  = Gesamtumsatz*0.30;//30% Fett
+	int F = (int)F_d;
+	
+	System.out.println("                  …………………………………………………………………………………………………………………………………………     ");
+	System.out.println("                        NÄHRSTOFFGRUPPE            VERTEILUNG");
+	System.out.println("                  …………………………………………………………………………………………………………………………………………     ");
+	System.out.println("                        Kohlenhydrate (50%)	⁞  "+KH+" kcal/täglich");
+	System.out.println("                        Fette         (30%)	⁞  "+F+" kcal/täglich");
+	System.out.println("                        Eiweß         (20%)	⁞  "+E+" kcal/täglich");
+	System.out.println("                  …………………………………………………………………………………………………………………………………………     ");
+	System.out.println("");
+	System.out.println("");
 }
 }//schließt Klasse ab

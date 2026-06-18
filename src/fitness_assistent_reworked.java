@@ -133,10 +133,10 @@ public class fitness_assistent_reworked {
 	//(6) Abfrage PAL Wert Aktivitätsfaktor
 	System.out.println("");
 	System.out.println("Wähle dein ungefaires Aktivitätsniveau.");
-	System.out.println("1 - Nur sitzend,zB Bürojob");
-	System.out.println("2 - Sitzend, etwas Aktivität");
-	System.out.println("3 - Stehend und gehend, z.B. Verkauf");
-	System.out.println("4 - Körperlich anstrengend, z.B. Bauarbeiter");
+	System.out.println("1 - Nur sitzend, kaum Freizeitaktivität zB Bürojob");
+	System.out.println("2 - Sitzend, etwas Aktivität z.B Studierende, Verkäufer");
+	System.out.println("3 - Stehend und gehend, z.B. Handwerker, Gastronomie");
+	System.out.println("4 - Körperlich anstrengend, z.B. Bauarbeiter, Leistungssportler");
 	System.out.println("");
 	System.out.println("Bitte gib jetzt die für dich passende Zahl ein:");
 	
@@ -270,22 +270,32 @@ public class fitness_assistent_reworked {
 	//(8) Grundumsatz/Leistungsumsatz ermitteln
 	double PAL_Wert;//Variable zur Einordnung der Angabe zum Aktivitätsniveau
 	
-	//(8) Aktivitätsfaktor PAL dem entsprechenden Wert zuordnen (Mittelwerte zur Berechnung verwendet)
+	//(8) Aktivitätsfaktor PAL dem entsprechenden Wert zuordnen 
 	if (PAL==1)
-	{ PAL_Wert = 1.45;} 
+	{ PAL_Wert = 1.4;} 
 	else if (PAL==2)
-	{ PAL_Wert = 1.65;}
+	{ PAL_Wert = 1.6;}
 	else if (PAL==3)
-	{ PAL_Wert = 1.85;}
+	{ PAL_Wert = 1.8;}
 	else
-	{ PAL_Wert = 2.2;}
+	{ PAL_Wert = 2.0;}
 	
-	//(8) Grundumsatz und Leistungsumsatz berechnen mit klassischer Formel (Harris-Benedict)
+	//(8) Grundumsatz  berechnen mit Mifflin-St.Jeor-Formel
 	double Größe_cm = Größe*100;
+	int faktorGeschlecht;
+	double Grundumsatz = (10*Gewicht)+(6.25*Größe_cm)-(5*alter);
 	
-	double Grundumsatz = 66.47+(13.7*Gewicht)+(5*Größe_cm)-(6.8*alter);
-	int GUgerundet = (int)Grundumsatz;//Alles hinter dem Komma wird "abgeschnitten"
+	if (geschlecht=="männlich")
+	{ Grundumsatz = Grundumsatz+5;}
+	else if (geschlecht=="weiblich")
+	{ Grundumsatz = Grundumsatz-161;}
+	else
+	{ Grundumsatz = Grundumsatz-83;}//Bei Eingabe divers wird der Mittelwert berechnet
 	
+    
+    int GUgerundet = (int)Grundumsatz;//Alles hinter dem Komma wird "abgeschnitten"
+	
+	//(8) Leistungsumsatz mit PAL Wert berechnen
 	double Leistungsumsatz = Grundumsatz*PAL_Wert;
 	int LUgerundet = (int)Leistungsumsatz;//alles hinterm Komma wird "abgeschnitten"
 	
@@ -320,12 +330,21 @@ public class fitness_assistent_reworked {
     //(11) Angabe zum Grundumsatz
 	System.out.println("");
 	System.out.println("");
-	System.out.println("                  Auf Grundlage deiner eingegebenen Daten und Mithilfe der klassischen Harris-Benedict-Formel konnte dein Grundumsatz, ");
-	System.out.println("                  sowie dein Leistungsumsatz wie folgt berechnet werden :");
+	System.out.println("                  Auf Grundlage deiner eingegebenen Daten und Mithilfe der Mifflin-St. Jeor-Formel wurde dein Grundumsatz ");
+	System.out.println("                  sowie dein Leistungsumsatz wie folgt berechnet :");
 	System.out.println("");
-	System.out.println("                  Dein Grundumsatz beträgt → "+GUgerundet+" kcal/täglich");
-	System.out.println("                  Dein Leistungsumsatz beträgt → "+LUgerundet+" kcal/täglich");
-	
+	System.out.println("                  Dein Grundumsatz beträgt → "+GUgerundet+" kcal pro Tag");
+	System.out.println("                  Dein Leistungsumsatz beträgt → "+LUgerundet+" kcal pro Tag");
+	System.out.println("");
+	if (geschlecht=="divers")
+	{System.out.println("         [ Info ] Die Mifflin-St. Jeor-Formel berechnet den Grundumsatz anhand des angegebenen Geschlechts.");
+	 System.out.println("                  Da die Formel in ihrer berechnung nur zwischen Mann und Frau unterscheidet wurde für deine Berechnung,");
+	 System.out.println("                  der Mittelwert aus beiden Formeln herangezogen.");
+	 System.out.println("");
+	}
+	 System.out.println("         [ Info ] Die Körperzusammensetzung jedes Menschens ist sehr individuell und von vielen verschiedenen Faktoren abhängig.");
+	 System.out.println("                  Angegebene Werte stellen nur einen groben Richtwert dar.");
+	 
 	
 	
 	}//Schließt main ab

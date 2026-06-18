@@ -292,15 +292,28 @@ public class fitness_assistent_reworked {
 	else
 	{ Grundumsatz = Grundumsatz-83;}//Bei Eingabe divers wird der Mittelwert berechnet
 	
-    
     int GUgerundet = (int)Grundumsatz;//Alles hinter dem Komma wird "abgeschnitten"
 	
 	//(8) Leistungsumsatz mit PAL Wert berechnen
-	double Leistungsumsatz = Grundumsatz*PAL_Wert;
+	double Leistungsumsatz = Grundumsatz*(PAL_Wert-1);
 	int LUgerundet = (int)Leistungsumsatz;//alles hinterm Komma wird "abgeschnitten"
+	
+	//(8) Gesamtumsatz berechnen
+	int Gesamtumsatz = GUgerundet+LUgerundet;
+	
+	//(9) Nährstoffzusammensetzung berechnen (Anhand der Richtwerte der DGE)
+	double KH = Gesamtumsatz*0.50;//50% Kohlenhydrate
+	int KHgerundet = (int)KH;
+	double E  = Gesamtumsatz*0.20;//20% Eiweiß
+	int Egerundet = (int)E;
+	double F  = Gesamtumsatz*0.30;//30% Fett
+	int Fgerundet = (int)F;
 	
 	//(9) Aufführung der eingegebenen Parameter
 	System.out.println("");
+	System.out.println("");
+	System.out.println("————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————");
+	System.out.println(""); 
 	System.out.println("Danke für deine Angaben.");
 	System.out.println("Nachfolgend siehst du deine Körperwerte und den daraus resultierenden BMI (Body-Mass-Index)");
 	System.out.println("");
@@ -329,21 +342,37 @@ public class fitness_assistent_reworked {
 				
     //(11) Angabe zum Grundumsatz
 	System.out.println("");
+	if (geschlecht=="divers")
+   {System.out.println("         [ Info ] Die Mifflin-St. Jeor-Formel berechnet den Grundumsatz anhand des angegebenen Geschlechts.");
+	System.out.println("                  Da die Formel in ihrer berechnung nur zwischen Mann und Frau unterscheidet wurde für deine Berechnung,");
+    System.out.println("                  der Mittelwert aus beiden Formeln herangezogen.");
+   }
+	System.out.println("");
+	System.out.println("         [ Info ] Die Körperzusammensetzung jedes Menschens ist sehr individuell und von vielen verschiedenen Faktoren abhängig.");
+	System.out.println("                  Angegebene Werte stellen nur einen groben Richtwert dar.");
 	System.out.println("");
 	System.out.println("                  Auf Grundlage deiner eingegebenen Daten und Mithilfe der Mifflin-St. Jeor-Formel wurde dein Grundumsatz ");
-	System.out.println("                  sowie dein Leistungsumsatz wie folgt berechnet :");
+	System.out.println("                  Leistungsumsatz sowie Gesamtumsatz wie folgt berechnet :");
 	System.out.println("");
-	System.out.println("                  Dein Grundumsatz beträgt → "+GUgerundet+" kcal pro Tag");
-	System.out.println("                  Dein Leistungsumsatz beträgt → "+LUgerundet+" kcal pro Tag");
 	System.out.println("");
-	if (geschlecht=="divers")
-	{System.out.println("         [ Info ] Die Mifflin-St. Jeor-Formel berechnet den Grundumsatz anhand des angegebenen Geschlechts.");
-	 System.out.println("                  Da die Formel in ihrer berechnung nur zwischen Mann und Frau unterscheidet wurde für deine Berechnung,");
-	 System.out.println("                  der Mittelwert aus beiden Formeln herangezogen.");
-	 System.out.println("");
-	}
-	 System.out.println("         [ Info ] Die Körperzusammensetzung jedes Menschens ist sehr individuell und von vielen verschiedenen Faktoren abhängig.");
-	 System.out.println("                  Angegebene Werte stellen nur einen groben Richtwert dar.");
+	System.out.println("                  Dein Grundumsatz beträgt     → "+GUgerundet+" kcal pro Tag (Energiebedarf in Ruhe)");
+	System.out.println("                  Dein Leistungsumsatz beträgt → "+LUgerundet+" kcal pro Tag (Energiebedarf zusätzlich durch Aktivitätsniveau)");
+	System.out.println("");
+	System.out.println("                  Dein Gesamtumsatz beträgt    → "+Gesamtumsatz+" kcal pro Tag (Gesamter Energiebedarf)");
+	System.out.println("");
+	System.out.println("");
+	System.out.println("                  …………………………………………………………………………………………………………………………………………     ");
+	System.out.println("                        NÄHRSTOFFGRUPPE           VERTEILUNG");
+	System.out.println("                  …………………………………………………………………………………………………………………………………………     ");
+	System.out.println("                        Kohlenhydrate (50%)	⁞  "+KHgerundet+" kcal/täglich");
+	System.out.println("                        Fette         (30%)	⁞  "+Fgerundet+" kcal/täglich");
+	System.out.println("                        Eiweß         (20%)	⁞  "+Egerundet+" kcal/täglich");
+	System.out.println("                  …………………………………………………………………………………………………………………………………………     ");
+	System.out.println("");
+	System.out.println("");
+	System.out.println("————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————");
+	System.out.println("");
+	System.out.println("");
 	 
 	
 	

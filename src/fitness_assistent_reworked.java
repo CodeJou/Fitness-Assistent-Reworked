@@ -170,17 +170,14 @@ public class fitness_assistent_reworked {
 	//(8) Altersgruppe festlegen
 	String Altersgruppe = bestimmeAltersgruppe(alter);
 	
-	//(9) PAL_Wert ermitteln zur Berechnung des Leistungsumsatzes
-	double PAL_Wert = berechnePALwert(PAL);
-	
-	//(10) Grundumsatz berechnen 
+	//(9) Grundumsatz berechnen 
 	int Grundumsatz = berechneGrundumsatz(Gewicht,Größe,alter,geschlecht);
 	
-	//(11) Leistungsumsatz berechnen
-	int Leistungsumsatz = berechneLeistungsumsatz(Grundumsatz,PAL_Wert);
+	//(10) Leistungsumsatz berechnen
+	int Leistungsumsatz = berechneLeistungsumsatz(Grundumsatz,PAL);
 	
-	//(12) Gesamtumsatz berechnen
-	int Gesamtumsatz = Grundumsatz+Leistungsumsatz;
+	//(11) Gesamtumsatz berechnen
+	int Gesamtumsatz = berechneGesamtumsatz (Grundumsatz,Leistungsumsatz);
 	
 //AB HIER AUSGABE
 	// Ausgabe Profil
@@ -246,7 +243,7 @@ public static String bestimmeAltersgruppe(int alter)
 	
 	String Altersgruppe;
 	
-	//(7) Altersgruppe bestimmen
+	//Altersgruppe bestimmen
 	if (alter<=24)
 	{ Altersgruppe = AltersgruppeA;
 	}
@@ -298,21 +295,6 @@ public static double ordneBMIderAltersgruppezu(String Altersgruppe, double bmi)
 	return BMInormalgewicht_ug;
 }
     //(9)
-public static double berechnePALwert(int PAL)
-{   double PAL_Wert;
-	if (PAL==1)
-	{ PAL_Wert = 1.4;} 
-	else if (PAL==2)
-	{ PAL_Wert = 1.6;}
-	else if (PAL==3)
-	{ PAL_Wert = 1.8;}
-	else
-	{ PAL_Wert = 2.0;}
-	
-	return PAL_Wert;
-}
-   //(10)
-
 public static int berechneGrundumsatz (double Gewicht,double Größe,int alter,String geschlecht)
 {
 	double Größe_cm = Größe*100;
@@ -329,12 +311,27 @@ public static int berechneGrundumsatz (double Gewicht,double Größe,int alter,S
     
     return Grundumsatz ;
 }
-    //(11)
-public static int berechneLeistungsumsatz(int Grundumsatz, double PAL_Wert)
-{   double Leistungsumsatz_d = Grundumsatz*(PAL_Wert-1);
+    //(10)
+public static int berechneLeistungsumsatz(int Grundumsatz, double PAL)
+{   double PAL_Wert;
+    if (PAL==1)
+    { PAL_Wert = 1.4;} 
+    else if (PAL==2)
+    { PAL_Wert = 1.6;}
+    else if (PAL==3)
+    { PAL_Wert = 1.8;}
+    else
+    { PAL_Wert = 2.0;}
+	
+	double Leistungsumsatz_d = Grundumsatz*(PAL_Wert-1);
     int Leistungsumsatz = (int)Leistungsumsatz_d;//alles hinterm Komma wird "abgeschnitten"
 	
     return Leistungsumsatz;
+}
+    //(11)
+public static int berechneGesamtumsatz (int Grundumsatz, int Leistungsumsatz)
+{   int Gesamtumsatz = Grundumsatz+Leistungsumsatz;
+	return Gesamtumsatz;
 }
 //Methoden zum Bereich Ausgabe
 public static void AusgabeProfil(String name, int alter, double Größe,double Gewicht, String geschlecht)

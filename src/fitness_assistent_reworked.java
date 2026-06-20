@@ -12,96 +12,29 @@ public class fitness_assistent_reworked {
 	System.out.println("");
 	System.out.println("Hey "+name+", hier kannst du deinen BMI (Body-Mass-Index) berechnen.");
 
-    //(2)Abfrage Größe
+    
+	//(2)Abfrage Größe
 	System.out.println("Wie größ bist du? (z.B 1.64 m)");
 			
-    //Variablen für Größe deklarieren
-    double Größe;
-    String größe;
-	    
-    //(2)Try/catch Eingabevalidierung
-	try
-    { größe = scanner.nextLine();//scannen
-	  größe = pruefeGroeße(größe);
-	  Größe = Double.parseDouble(größe);// Datentyp String in Double umwandeln
-		        
-      while (Größe>2.1||Größe<1.0)//While Schleife wenn Zahlenwerte außerhalb 1.00 und 2.10 Metern angegeben sind
-	  {System.out.println("");
-       System.out.println("[ Meldung: Bitte gib einen Zahlenwert zwischen 1.00 Meter und 2.10 Meter an (z.B 1.64m ]");
-	   größe = scanner.nextLine();
-		
-	  größe = pruefeGroeße(größe);
-	  Größe = Double.parseDouble(größe);// Datentyp String in Double umwandeln
-		  }
-	   }
-  
-    catch (java.lang.NumberFormatException exception_2)//Fehlermeldung abfangen bei fehlerhafter Eingabe (Bei Eingabe "cm")
-	{System.out.println();  
-     System.out.println("[ Meldung: Bitte gib deine Größe als Zahlenwert in m (z.B 1.64m) an ]");
-	 größe = scanner.nextLine();
-		    
-	  größe = pruefeGroeße(größe);
-	  Größe = Double.parseDouble(größe);// Datentyp String in Double umwandeln
-		    
-	 while (Größe>2.1||Größe<1.0)//While Schleife wenn Zahlenwerte außerhalb 1.00 und 2.10 Metern angegeben sind
-	 {System.out.println();
-      System.out.println("[ Meldung: Bitte gib einen Zahlenwert zwischen 1.00 Meter und 2.10 Meter an (z.B 1.64m ]");
-	  größe = scanner.nextLine();
-		    
-	  größe = pruefeGroeße(größe);
-	  Größe = Double.parseDouble(größe);// Datentyp String in Double umwandeln
-		 }
-	  }	
+    //Eingabe lesen/prüfen
+	double Größe = leseGröße(scanner);
+    
     
     //(3) Abfrage Gewicht
 	System.out.println("");
 	System.out.println("Wieviel wiegst du? (Gib dein Gewicht in kg an)");
 		
-    //Variable deklarieren
-	double Gewicht;
-	String gewicht;
-	
-    //(3) Try/Catch Eingabevalidierung
-	try 
-	{ gewicht = scanner.nextLine();
-	  gewicht = pruefeGewicht(gewicht);
-	  Gewicht = Double.parseDouble(gewicht);//Datentyp String zu Double umwandeln
-	    }
-		
-	catch (java.lang.NumberFormatException exception_3)
-	{ System.out.println("");
-	  System.out.println("[ Meldung: Bitte gib dein Gewicht in kg (z.B 65,5 kg) an ]");//Meldung wenn Eingabe keinen Zahlenwert beinhaltet
-	  gewicht = scanner.nextLine();
-			
-	  gewicht = pruefeGewicht(gewicht);
-	  Gewicht = Double.parseDouble(gewicht);
-		}
+    //Eingabe lesen/prüfen
+	double Gewicht = leseGewicht(scanner);
     
-    //(4) Abfrage Alter                               
+    
+	//(4) Abfrage Alter                               
 	System.out.println("");
 	System.out.println("Wie alt bist du? (Runde dein Alter auf eine ganze Zahl auf)");
 		
-	//Variable deklarieren
-	int alter;
+	//Eingabe lesen/prüfen
+	int Alter = leseAlter(scanner);
 	
-    //(4) Eingabevalidierung try/catch
-	try 
-	{ alter = scanner.nextInt();
-	  if (alter<19||alter>99)//Wenn Eingabe außerhalb 19 bis 99 liegt
-	  {System.out.println();
-	   System.out.println("[ Meldung : Bitte gib ein Alter zwischen 19 und 99 an ]");
-	   alter = scanner.nextInt();
-		  }
-	   }
-	
-	catch (java.util.InputMismatchException expection_4)
-	{System.out.println("");
-	 System.out.println("[ Meldung: Bitte gib dein Alter als Zahlenwert (zwischen 19 und 99 ) ein! ]");
-	 scanner.nextLine();// Scanner leeren
-	 alter = scanner.nextInt();
-	   }
-		
-	scanner.nextLine();//scanner leeren
     
     //(5) Abfrage Geschlecht
 	System.out.println("");
@@ -168,10 +101,10 @@ public class fitness_assistent_reworked {
 	double bmi = berechneBMI (Gewicht,Größe); 
 	
 	//(8) Altersgruppe festlegen
-	String Altersgruppe = bestimmeAltersgruppe(alter);
+	String Altersgruppe = bestimmeAltersgruppe(Alter);
 	
 	//(9) Grundumsatz berechnen 
-	int Grundumsatz = berechneGrundumsatz(Gewicht,Größe,alter,geschlecht);
+	int Grundumsatz = berechneGrundumsatz(Gewicht,Größe,Alter,geschlecht);
 	
 	//(10) Leistungsumsatz berechnen
 	int Leistungsumsatz = berechneLeistungsumsatz(Grundumsatz,PAL);
@@ -181,7 +114,7 @@ public class fitness_assistent_reworked {
 	
 //AB HIER AUSGABE
 	// Ausgabe Profil
-	AusgabeProfil(name,alter,Größe,Gewicht,geschlecht);
+	AusgabeProfil(name,Alter,Größe,Gewicht,geschlecht);
 	
 	// Ausgabe der BMI-Tabelle
 	AusgabeBMItabelle(Altersgruppe,bmi,Größe);
@@ -189,40 +122,92 @@ public class fitness_assistent_reworked {
     // Angabe Infos+Energiebedarf
 	AusgabeEnergiebedarf(Grundumsatz,Leistungsumsatz,Gesamtumsatz,geschlecht);
 	
-	//Ausgabe Makros-Tabelle durch Methode
+	//Ausgabe Makros-Tabelle
 	AusgabeMakrotabelle(Gesamtumsatz);
 }
 
 //AB HIER METHODEN	
 //Methoden zum Bereich "Eingabe"
 	//(2)
-public static String pruefeGroeße(String größe)
-{ 	if (größe.contains(" m"))//wenn Eingabe Maßeinheit + Leerzeichen beinhaltet
-     {  größe = größe.replace(" m","");//Maßeinheit entfernen
+public static double bereinigegröße(String größe)//Hilfsmethode Größe
+{ 	größe = größe.replace("m","");//Maßeinheit entfernen
+    größe = größe.replace(" ","");//Leerzeichen entfernen
+    größe = größe.replace(",",".");//Komma durch Punkt ersetzen
+    
+    double Größe = Double.parseDouble(größe);// Datentyp String in Double umwandeln
+	return Größe;
+}
+public static double leseGröße(Scanner scanner)//Größe einlesen und validieren
+{ String größe;
+  double Größe;
+  try
+  { größe = scanner.nextLine();//scannen
+    Größe = bereinigegröße(größe);
+	while (Größe>2.1||Größe<1.0)//While Schleife wenn Zahlenwerte außerhalb 1.00 und 2.10 Metern angegeben sind
+	{System.out.println("");
+     System.out.println("[ Meldung: Bitte gib einen Zahlenwert zwischen 1.00 Meter und 2.10 Meter an (z.B 1.64m ]");
+	 größe = scanner.nextLine();
+	 Größe = bereinigegröße(größe);
+		  }
+	   }
+  catch (java.lang.NumberFormatException exception_2)//Fehlermeldung abfangen bei fehlerhafter Eingabe (Bei Eingabe "cm")
+	{System.out.println();  
+     System.out.println("[ Meldung: Bitte gib deine Größe als Zahlenwert in m (z.B 1.64m) an ]");
+	 größe = scanner.nextLine();
+	 Größe = bereinigegröße(größe);	    
+	 
+	 while (Größe>2.1||Größe<1.0)//While Schleife wenn Zahlenwerte außerhalb 1.00 und 2.10 Metern angegeben sind
+	 {System.out.println("");
+      System.out.println("[ Meldung: Bitte gib einen Zahlenwert zwischen 1.00 Meter und 2.10 Meter an (z.B 1.64m ]");
+	  größe = scanner.nextLine();
+	  Größe = bereinigegröße(größe);
 	    }
-    else
-	{  	größe = größe.replace("m","");
-		}   
-   
-	if (größe.contains(","))//wenn Komma eingegeben ist
-	{	größe = größe.replace(",",".");//Komma durch Punkt ersetzen
-		}
-	return größe;
+	  }	
+	return Größe;
 }
     //(3)
-public static String pruefeGewicht(String gewicht)
-{  if (gewicht.contains(" kg"))//if else Anweisung wenn Maßeinheit mit Leerzeichen oder/und Komma statt Punkt eingegeben ist
-	{  gewicht = gewicht.replace(" kg","");//Maßeinheit löschen
+public static double bereinigeGewicht(String gewicht)//Hilfsmethode Gewicht
+{   gewicht = gewicht.replace(" kg","");//Maßeinheit entfernen
+	gewicht = gewicht.replace(" ","");//Leerzeichen entfernen
+	gewicht = gewicht.replace(",",".");//Komma durch Punkt ersetzen
+	   
+	double Gewicht = Double.parseDouble(gewicht);//Datentyp String zu Double umwandeln
+    return Gewicht;
+}
+public static double leseGewicht(Scanner scanner)//Gewicht einlesen und validieren
+{ String gewicht;
+  double Gewicht;
+  try 
+  { gewicht = scanner.nextLine();
+	Gewicht = bereinigeGewicht(gewicht);
+     }
+  catch (java.lang.NumberFormatException exception_3)
+  { System.out.println("");
+	System.out.println("[ Meldung: Bitte gib dein Gewicht in kg (z.B 65,5 kg) an ]");//Meldung wenn Eingabe keinen Zahlenwert beinhaltet
+	gewicht = scanner.nextLine();
+	Gewicht = bereinigeGewicht(gewicht);
+	 }	
+	return Gewicht;
+}
+public static int leseAlter(Scanner scanner) 
+{ int Alter;
+  try 
+  { Alter = scanner.nextInt();
+	if (Alter<19||Alter>99)//Wenn Eingabe außerhalb 19 bis 99 liegt
+	{ System.out.println();
+	  System.out.println("[ Meldung : Bitte gib ein Alter zwischen 19 und 99 an ]");
+	  Alter = scanner.nextInt();
+		  }
 	   }
-
-   else
-	{  gewicht = gewicht.replace("kg","");//Wenn Maßeinheit ohne Leerzeichen oder/und Komma statt Punkt eingegeben ist/Maßeinheit löschen
+  catch (java.util.InputMismatchException expection_4)
+  { System.out.println("");
+	System.out.println("[ Meldung: Bitte gib dein Alter als Zahlenwert (zwischen 19 und 99 ) ein! ]");
+	scanner.nextLine();// Scanner leeren
+	Alter = scanner.nextInt();
 	   }
-
-   if (gewicht.contains(","))//wenn Komma eingegeben ist
-	{  gewicht = gewicht.replace(",",".");//Komma durch Punkt ersetzen
-	   }
-   return gewicht;
+		
+	scanner.nextLine();//scanner leeren
+	return Alter;
 }
 //Methoden zum Bereich "Interpretieren und Verarbeiten"
     //(7)
@@ -334,7 +319,7 @@ public static int berechneGesamtumsatz (int Grundumsatz, int Leistungsumsatz)
 	return Gesamtumsatz;
 }
 //Methoden zum Bereich Ausgabe
-public static void AusgabeProfil(String name, int alter, double Größe,double Gewicht, String geschlecht)
+public static void AusgabeProfil(String name, int Alter, double Größe,double Gewicht, String geschlecht)
 {
 	System.out.println("");
 	System.out.println("");
@@ -344,7 +329,7 @@ public static void AusgabeProfil(String name, int alter, double Größe,double G
 	System.out.println("Nachfolgend siehst du deine Körperwerte und den daraus resultierenden BMI (Body-Mass-Index)");
 	System.out.println("");
 	System.out.println("                  Name       : "+name);
-	System.out.println("                  Alter      : "+alter+" Jahre");
+	System.out.println("                  Alter      : "+Alter+" Jahre");
 	System.out.println("                  Größe      : "+Größe+" m");
 	System.out.println("                  Gewicht    : "+Gewicht+" kg");
 	System.out.println("                  Geschlecht : "+geschlecht);

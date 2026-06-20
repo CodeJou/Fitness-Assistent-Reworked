@@ -189,6 +189,7 @@ public static double leseGewicht(Scanner scanner)//Gewicht einlesen und validier
 	 }	
 	return Gewicht;
 }
+   //(4)
 public static int leseAlter(Scanner scanner) 
 { int Alter;
   try 

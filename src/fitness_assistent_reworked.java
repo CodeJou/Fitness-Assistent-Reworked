@@ -47,20 +47,11 @@ public class fitness_assistent_reworked {
 	System.out.println("");
 	System.out.println("Bitte gib jetzt den für dich passenden Buchstaben ein:");
 	
-	//Variable deklarieren
-	String geschlecht;
+	// Eingabe lesen/prüfen       
+	String Geschlecht = leseGeschlecht(scanner);
 	
-    //(5) Wertezuweisung if else Anweisung        
-	geschlecht = scanner.nextLine();
 	
-	if (geschlecht.equalsIgnoreCase("m"))
-	{geschlecht = "männlich";}
-	else if (geschlecht.equalsIgnoreCase("w"))
-	{geschlecht = "weiblich";}
-	else 
-	{geschlecht = "divers";}
-	
-    //(6) Abfrage PAL Wert Aktivitätsfaktor
+	//(6) Abfrage PAL Wert Aktivitätsfaktor
 	System.out.println("");
 	System.out.println("Wähle dein ungefaires Aktivitätsniveau.");
 	System.out.println("1 - Nur sitzend, kaum Freizeitaktivität zB Bürojob");
@@ -70,32 +61,10 @@ public class fitness_assistent_reworked {
 	System.out.println("");
 	System.out.println("Bitte gib jetzt die für dich passende Zahl ein:");
 	
-	//Variable für PAL Wert deklarieren
-	int PAL;
+	//Eingabe lesen/prüfen
+	int PAL = lesePAL(scanner);
 	
-    //(6) Eingabenvalidierung try/catch
-	try 
-	{ PAL = scanner.nextInt();//Antwort scnannen
-	  while (PAL<1||PAL>4)//Wenn eingegebener Zahlenwert außerhalb 1 - 4 liegt
-	  {System.out.println("");
-	   System.out.println("[ Meldung: Bitte gib einen Zahlenwert von 1 bis 4 an ]");
-	   PAL = scanner.nextInt();
-	    }
-	 }
-	
-	catch (java.util.InputMismatchException exception_6)//Wenn Eingabe kein Zahlenwert Typ int entspricht
-	{ scanner.nextLine();//Scanner leeren
-	  System.out.println("");
-	  System.out.println("[ Meldung: Bitte gib einen ganzen Zahlenwert von 1 bis 4 an ]");
-	  PAL = scanner.nextInt();
-	 
-	  while (PAL<1||PAL>4)
-	  { System.out.println("");
-	    System.out.println("[ Meldung: Bitte gib einen Zahlenwert von 1 bis 4 an ]");
-	    PAL = scanner.nextInt();
-	    }
-	}
-	
+    
 //AB HIER WERTE INTERPRETIEREN UND VERARBEITEN
 	//(7) BMI berechnen
 	double bmi = berechneBMI (Gewicht,Größe); 
@@ -104,7 +73,7 @@ public class fitness_assistent_reworked {
 	String Altersgruppe = bestimmeAltersgruppe(Alter);
 	
 	//(9) Grundumsatz berechnen 
-	int Grundumsatz = berechneGrundumsatz(Gewicht,Größe,Alter,geschlecht);
+	int Grundumsatz = berechneGrundumsatz(Gewicht,Größe,Alter,Geschlecht);
 	
 	//(10) Leistungsumsatz berechnen
 	int Leistungsumsatz = berechneLeistungsumsatz(Grundumsatz,PAL);
@@ -114,13 +83,13 @@ public class fitness_assistent_reworked {
 	
 //AB HIER AUSGABE
 	// Ausgabe Profil
-	AusgabeProfil(name,Alter,Größe,Gewicht,geschlecht);
+	AusgabeProfil(name,Alter,Größe,Gewicht,Geschlecht);
 	
 	// Ausgabe der BMI-Tabelle
 	AusgabeBMItabelle(Altersgruppe,bmi,Größe);
 				
     // Angabe Infos+Energiebedarf
-	AusgabeEnergiebedarf(Grundumsatz,Leistungsumsatz,Gesamtumsatz,geschlecht);
+	AusgabeEnergiebedarf(Grundumsatz,Leistungsumsatz,Gesamtumsatz,Geschlecht);
 	
 	//Ausgabe Makros-Tabelle
 	AusgabeMakrotabelle(Gesamtumsatz);
@@ -210,6 +179,45 @@ public static int leseAlter(Scanner scanner)
 	scanner.nextLine();//scanner leeren
 	return Alter;
 }
+   //(5)
+public static String leseGeschlecht(Scanner scanner)
+{ String Geschlecht;
+  Geschlecht = scanner.nextLine();
+	
+  if (Geschlecht.equalsIgnoreCase("m"))
+  { Geschlecht = "männlich";}
+  else if (Geschlecht.equalsIgnoreCase("w"))
+  { Geschlecht = "weiblich";}
+  else 
+  { Geschlecht = "divers";}
+	
+	return Geschlecht;
+}
+   //(6)
+public static int lesePAL(Scanner scanner)
+{ int PAL;
+  try 
+  { PAL = scanner.nextInt();//Antwort scnannen
+	while (PAL<1||PAL>4)//Wenn eingegebener Zahlenwert außerhalb 1 - 4 liegt
+	{ System.out.println("");
+	  System.out.println("[ Meldung: Bitte gib einen Zahlenwert von 1 bis 4 an ]");
+	  PAL = scanner.nextInt();
+	    }
+	 }
+  catch (java.util.InputMismatchException exception_6)//Wenn Eingabe kein Zahlenwert Typ int entspricht
+  { scanner.nextLine();//Scanner leeren
+	System.out.println("");
+	System.out.println("[ Meldung: Bitte gib einen ganzen Zahlenwert von 1 bis 4 an ]");
+	PAL = scanner.nextInt();
+	 
+	while (PAL<1||PAL>4)
+	{ System.out.println("");
+	  System.out.println("[ Meldung: Bitte gib einen Zahlenwert von 1 bis 4 an ]");
+	  PAL = scanner.nextInt();
+	    }
+	}
+	return PAL;
+}
 //Methoden zum Bereich "Interpretieren und Verarbeiten"
     //(7)
 public static double berechneBMI (double Gewicht, double Größe)
@@ -281,14 +289,14 @@ public static double ordneBMIderAltersgruppezu(String Altersgruppe, double bmi)
 	return BMInormalgewicht_ug;
 }
     //(9)
-public static int berechneGrundumsatz (double Gewicht,double Größe,int alter,String geschlecht)
+public static int berechneGrundumsatz (double Gewicht,double Größe,int alter,String Geschlecht)
 {
 	double Größe_cm = Größe*100;
 	double Grundumsatz_d = (10*Gewicht)+(6.25*Größe_cm)-(5*alter);
 	
-	if (geschlecht=="männlich")
+	if (Geschlecht=="männlich")
 	{ Grundumsatz_d = Grundumsatz_d+5;}
-	else if (geschlecht=="weiblich")
+	else if (Geschlecht=="weiblich")
 	{ Grundumsatz_d = Grundumsatz_d-161;}
 	else
 	{ Grundumsatz_d = Grundumsatz_d-83;}//Bei Eingabe divers wird der Mittelwert berechnet
@@ -320,7 +328,7 @@ public static int berechneGesamtumsatz (int Grundumsatz, int Leistungsumsatz)
 	return Gesamtumsatz;
 }
 //Methoden zum Bereich Ausgabe
-public static void AusgabeProfil(String name, int Alter, double Größe,double Gewicht, String geschlecht)
+public static void AusgabeProfil(String name, int Alter, double Größe,double Gewicht, String Geschlecht)
 {
 	System.out.println("");
 	System.out.println("");
@@ -333,7 +341,7 @@ public static void AusgabeProfil(String name, int Alter, double Größe,double G
 	System.out.println("                  Alter      : "+Alter+" Jahre");
 	System.out.println("                  Größe      : "+Größe+" m");
 	System.out.println("                  Gewicht    : "+Gewicht+" kg");
-	System.out.println("                  Geschlecht : "+geschlecht);
+	System.out.println("                  Geschlecht : "+Geschlecht);
 	System.out.println("");
 	
 }
@@ -424,13 +432,18 @@ public static void AusgabeMakrotabelle(int Gesamtumsatz)
 	double F_d  = Gesamtumsatz*0.30;//30% Fett
 	int F = (int)F_d;
 	
-	System.out.println("                  …………………………………………………………………………………………………………………………………………     ");
-	System.out.println("                        NÄHRSTOFFGRUPPE            VERTEILUNG");
-	System.out.println("                  …………………………………………………………………………………………………………………………………………     ");
-	System.out.println("                        Kohlenhydrate (50%)	⁞  "+KH+" kcal/täglich");
-	System.out.println("                        Fette         (30%)	⁞  "+F+" kcal/täglich");
-	System.out.println("                        Eiweß         (20%)	⁞  "+E+" kcal/täglich");
-	System.out.println("                  …………………………………………………………………………………………………………………………………………     ");
+	//Nährstoffzusammensetzung in Gramm berechnen
+	double KH_g = KH/4;
+	double E_g = E/4;
+	double F_g = F/9;
+	
+	System.out.println("                  …………………………………………………………………………………………………………………………………………………………………………………………………………………………………………     ");
+	System.out.println("                        NÄHRSTOFFGRUPPE            NÄRSTOFFVERTEILUNG IN KCAL/GRAMM");
+	System.out.println("                  …………………………………………………………………………………………………………………………………………………………………………………………………………………………………………     ");
+	System.out.println("                        Kohlenhydrate (50%)	⁞  "+KH+" kcal/täglich ⁞ "+KH_g+" g/täglich");
+	System.out.println("                        Fette         (30%)	⁞  "+F+"  kcal/täglich ⁞ "+E_g+" g/täglich");
+	System.out.println("                        Eiweß         (20%)	⁞  "+E+"  kcal/täglich ⁞ "+F_g+"  g/täglich");
+	System.out.println("                  …………………………………………………………………………………………………………………………………………………………………………………………………………………………………………     ");
 	System.out.println("");
 	System.out.println("");
 	System.out.println("————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————");

@@ -98,7 +98,7 @@ public class fitness_assistent_reworked {
 //AB HIER METHODEN	
 //Methoden zum Bereich "Eingabe"
 	//(2)
-public static double bereinigegröße(String größe)//Hilfsmethode Größe
+public static double bereinigegröße(String größe)//Hilfsmethode bereinigt String Größe
 { 	größe = größe.replace("m","");//Maßeinheit entfernen
     größe = größe.replace(" ","");//Leerzeichen entfernen
     größe = größe.replace(",",".");//Komma durch Punkt ersetzen
@@ -106,31 +106,33 @@ public static double bereinigegröße(String größe)//Hilfsmethode Größe
     double Größe = Double.parseDouble(größe);// Datentyp String in Double umwandeln
 	return Größe;
 }
-public static double leseGröße(Scanner scanner)//Größe einlesen und validieren
-{ String größe;
-  double Größe;
-  try
-  { größe = scanner.nextLine();//scannen
-    Größe = bereinigegröße(größe);
+    //(2)
+public static double prüfeWertebereichGröße (double Größe, Scanner scanner)//Hilfsmethode prüft Wertebereich Größe
+{   String größe;
+
 	while (Größe>2.1||Größe<1.0)//While Schleife wenn Zahlenwerte außerhalb 1.00 und 2.10 Metern angegeben sind
 	{System.out.println("");
      System.out.println("[ Meldung: Bitte gib einen Zahlenwert zwischen 1.00 Meter und 2.10 Meter an (z.B 1.64m ]");
 	 größe = scanner.nextLine();
 	 Größe = bereinigegröße(größe);
 		  }
+	return Größe;
+}
+    //(2)
+public static double leseGröße(Scanner scanner)//Größe einlesen/validieren
+{ String größe;
+  double Größe;
+  try
+  { größe = scanner.nextLine();
+    Größe = bereinigegröße(größe);
+	Größe = prüfeWertebereichGröße(Größe,scanner);
 	   }
   catch (java.lang.NumberFormatException exception_2)//Fehlermeldung abfangen bei fehlerhafter Eingabe (Bei Eingabe "cm")
 	{System.out.println();  
      System.out.println("[ Meldung: Bitte gib deine Größe als Zahlenwert in m (z.B 1.64m) an ]");
 	 größe = scanner.nextLine();
 	 Größe = bereinigegröße(größe);	    
-	 
-	 while (Größe>2.1||Größe<1.0)//While Schleife wenn Zahlenwerte außerhalb 1.00 und 2.10 Metern angegeben sind
-	 {System.out.println("");
-      System.out.println("[ Meldung: Bitte gib einen Zahlenwert zwischen 1.00 Meter und 2.10 Meter an (z.B 1.64m ]");
-	  größe = scanner.nextLine();
-	  Größe = bereinigegröße(größe);
-	    }
+	 Größe = prüfeWertebereichGröße(Größe,scanner);
 	  }	
 	return Größe;
 }
@@ -143,6 +145,7 @@ public static double bereinigeGewicht(String gewicht)//Hilfsmethode Gewicht
 	double Gewicht = Double.parseDouble(gewicht);//Datentyp String zu Double umwandeln
     return Gewicht;
 }
+    //(3)
 public static double leseGewicht(Scanner scanner)//Gewicht einlesen und validieren
 { String gewicht;
   double Gewicht;
@@ -168,6 +171,7 @@ public static int prüfeWertebereichAlter(int Alter, Scanner scanner)//Hilfsmeth
    scanner.nextLine();//Scanner leeren
    return Alter;
 }
+   //(5)
 public static int leseAlter(Scanner scanner) 
 { int Alter;
   try 
@@ -220,7 +224,6 @@ public static int lesePAL(Scanner scanner)
 	System.out.println("");
 	System.out.println("[ Meldung: Bitte gib einen ganzen Zahlenwert von 1 bis 4 an ]");
 	PAL = scanner.nextInt();
-	 
 	PAL = prüfeWertebereichPAL(PAL,scanner);
 	}
 	return PAL;

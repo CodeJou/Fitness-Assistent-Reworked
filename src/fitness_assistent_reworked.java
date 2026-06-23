@@ -159,24 +159,28 @@ public static double leseGewicht(Scanner scanner)//Gewicht einlesen und validier
 	return Gewicht;
 }
    //(4)
+public static int prüfeWertebereichAlter(int Alter, Scanner scanner)//Hilfsmethode um Wertebereich Alter zu prüfen
+{ if (Alter<19||Alter>99)//Wenn Eingabe außerhalb 19 bis 99 liegt
+	{ System.out.println();
+	  System.out.println("[ Meldung : Bitte gib ein Alter zwischen 19 und 99 an ]");
+	  Alter = scanner.nextInt(); 
+	  }
+   scanner.nextLine();//Scanner leeren
+   return Alter;
+}
 public static int leseAlter(Scanner scanner) 
 { int Alter;
   try 
   { Alter = scanner.nextInt();
-	if (Alter<19||Alter>99)//Wenn Eingabe außerhalb 19 bis 99 liegt
-	{ System.out.println();
-	  System.out.println("[ Meldung : Bitte gib ein Alter zwischen 19 und 99 an ]");
-	  Alter = scanner.nextInt();
-		  }
+	Alter = prüfeWertebereichAlter(Alter,scanner);
 	   }
   catch (java.util.InputMismatchException expection_4)
   { System.out.println("");
 	System.out.println("[ Meldung: Bitte gib dein Alter als Zahlenwert (zwischen 19 und 99 ) ein! ]");
-	scanner.nextLine();// Scanner leeren
+	scanner.nextLine();//Scanner leeren
 	Alter = scanner.nextInt();
-	   }
-		
-	scanner.nextLine();//scanner leeren
+	Alter = prüfeWertebereichAlter(Alter,scanner);
+	    }
 	return Alter;
 }
    //(5)
@@ -194,9 +198,8 @@ public static String leseGeschlecht(Scanner scanner)
 	return Geschlecht;
 }
    //(6)
-public static int prüfeWertebereichPAL(Scanner scanner)
-{
-	int PAL = scanner.nextInt();//Antwort scnannen
+public static int prüfeWertebereichPAL(int PAL,Scanner scanner)//Hilfsmethode prüft Wertebereich PAL
+{  
 	while (PAL<1||PAL>4)//Wenn eingegebener Zahlenwert außerhalb 1 - 4 liegt
 	{ System.out.println("");
 	  System.out.println("[ Meldung: Bitte gib einen Zahlenwert von 1 bis 4 an ]");
@@ -204,10 +207,12 @@ public static int prüfeWertebereichPAL(Scanner scanner)
 	}
 	return PAL;
 }
+   //(6)
 public static int lesePAL(Scanner scanner)
 { int PAL;
   try 
-  { PAL = prüfeWertebereichPAL(scanner);
+  { PAL = scanner.nextInt();//Antwort scnannen
+	PAL = prüfeWertebereichPAL(PAL,scanner);
 	    
 	}
   catch (java.util.InputMismatchException exception_6)//Wenn Eingabe kein Zahlenwert Typ int entspricht
@@ -216,7 +221,7 @@ public static int lesePAL(Scanner scanner)
 	System.out.println("[ Meldung: Bitte gib einen ganzen Zahlenwert von 1 bis 4 an ]");
 	PAL = scanner.nextInt();
 	 
-	PAL = prüfeWertebereichPAL(scanner);
+	PAL = prüfeWertebereichPAL(PAL,scanner);
 	}
 	return PAL;
 }

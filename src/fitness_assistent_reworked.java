@@ -163,7 +163,7 @@ public static double leseGewicht(Scanner scanner)//Gewicht einlesen und validier
 }
    //(4)
 public static int prüfeWertebereichAlter(int Alter, Scanner scanner)//Hilfsmethode um Wertebereich Alter zu prüfen
-{ if (Alter<19||Alter>99)//Wenn Eingabe außerhalb 19 bis 99 liegt
+{ while (Alter<19||Alter>99)//Wenn Eingabe außerhalb 19 bis 99 liegt
 	{ System.out.println();
 	  System.out.println("[ Meldung : Bitte gib ein Alter zwischen 19 und 99 an ]");
 	  Alter = scanner.nextInt(); 
@@ -196,9 +196,10 @@ public static String leseGeschlecht(Scanner scanner)
   { Geschlecht = "männlich";}
   else if (Geschlecht.equalsIgnoreCase("w"))
   { Geschlecht = "weiblich";}
-  else 
+  else if (Geschlecht.equalsIgnoreCase("d"))
   { Geschlecht = "divers";}
-	
+  else
+  { Geschlecht = "Keine Angabe";}
 	return Geschlecht;
 }
    //(6)
@@ -309,7 +310,7 @@ public static int berechneGrundumsatz (double Gewicht,double Größe,int alter,S
 	else if (Geschlecht=="weiblich")
 	{ Grundumsatz_d = Grundumsatz_d-161;}
 	else
-	{ Grundumsatz_d = Grundumsatz_d-83;}//Bei Eingabe divers wird der Mittelwert berechnet
+	{ Grundumsatz_d = Grundumsatz_d-83;}//Bei Eingabe divers+keine Angabe wird der Mittelwert berechnet
 	
     int Grundumsatz = (int)Grundumsatz_d;//Alles hinter dem Komma wird "abgeschnitten"
     
@@ -410,10 +411,10 @@ public static void AusgabeBMItabelle(String Altersgruppe,double bmi,double Grö�
 	System.out.println("                  …………………………………………………………………………………………………………………………………………     ");
 }
 
-public static void AusgabeEnergiebedarf(int Grundumsatz,int Leistungsumsatz, int Gesamtumsatz, String geschlecht)
+public static void AusgabeEnergiebedarf(int Grundumsatz,int Leistungsumsatz, int Gesamtumsatz, String Geschlecht)
 {
 	System.out.println("");
-	if (geschlecht=="divers")
+	if (Geschlecht=="divers"||Geschlecht=="Keine Angabe")
    {System.out.println("         [ Info ] Die Mifflin-St. Jeor-Formel berechnet den Grundumsatz anhand des angegebenen Geschlechts.");
 	System.out.println("                  Da die Formel in ihrer berechnung nur zwischen Mann und Frau unterscheidet wurde für deine Berechnung,");
     System.out.println("                  der Mittelwert aus beiden Formeln herangezogen.");

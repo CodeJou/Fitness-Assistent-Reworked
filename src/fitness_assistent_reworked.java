@@ -194,27 +194,29 @@ public static String leseGeschlecht(Scanner scanner)
 	return Geschlecht;
 }
    //(6)
-public static int lesePAL(Scanner scanner)
-{ int PAL;
-  try 
-  { PAL = scanner.nextInt();//Antwort scnannen
+public static int prüfeWertebereichPAL(Scanner scanner)
+{
+	int PAL = scanner.nextInt();//Antwort scnannen
 	while (PAL<1||PAL>4)//Wenn eingegebener Zahlenwert außerhalb 1 - 4 liegt
 	{ System.out.println("");
 	  System.out.println("[ Meldung: Bitte gib einen Zahlenwert von 1 bis 4 an ]");
 	  PAL = scanner.nextInt();
-	    }
-	 }
+	}
+	return PAL;
+}
+public static int lesePAL(Scanner scanner)
+{ int PAL;
+  try 
+  { PAL = prüfeWertebereichPAL(scanner);
+	    
+	}
   catch (java.util.InputMismatchException exception_6)//Wenn Eingabe kein Zahlenwert Typ int entspricht
   { scanner.nextLine();//Scanner leeren
 	System.out.println("");
 	System.out.println("[ Meldung: Bitte gib einen ganzen Zahlenwert von 1 bis 4 an ]");
 	PAL = scanner.nextInt();
 	 
-	while (PAL<1||PAL>4)
-	{ System.out.println("");
-	  System.out.println("[ Meldung: Bitte gib einen Zahlenwert von 1 bis 4 an ]");
-	  PAL = scanner.nextInt();
-	    }
+	PAL = prüfeWertebereichPAL(scanner);
 	}
 	return PAL;
 }

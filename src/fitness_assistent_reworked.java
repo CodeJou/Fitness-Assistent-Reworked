@@ -238,7 +238,7 @@ public static double berechneBMI (double Gewicht, double Größe)
   return bmi;
 }
     //(8)
-public static String bestimmeAltersgruppe(int alter)
+public static String bestimmeAltersgruppe(int Alter)
 {   String AltersgruppeA = "Altersgruppe 19 bis 24 Jahre";
 	String AltersgruppeB = "Altersgruppe 25 bis 34 Jahre";
 	String AltersgruppeC = "Altersgruppe 35 bis 44 Jahre";
@@ -249,19 +249,19 @@ public static String bestimmeAltersgruppe(int alter)
 	String Altersgruppe;
 	
 	//Altersgruppe bestimmen
-	if (alter<=24)
+	if (Alter<=24)
 	{ Altersgruppe = AltersgruppeA;
 	}
-	else if (alter<=34)
+	else if (Alter<=34)
 	{ Altersgruppe = AltersgruppeB;
 	}
-	else if (alter<=44)
+	else if (Alter<=44)
 	{ Altersgruppe = AltersgruppeC;
 	}
-	else if (alter<=54)
+	else if (Alter<=54)
 	{ Altersgruppe = AltersgruppeD;
 	}
-	else if (alter<=64)
+	else if (Alter<=64)
 	{ Altersgruppe = AltersgruppeE;
 	}
 	else
@@ -300,10 +300,10 @@ public static double ordneBMIderAltersgruppezu(String Altersgruppe, double bmi)
 	return BMInormalgewicht_ug;
 }
     //(9)
-public static int berechneGrundumsatz (double Gewicht,double Größe,int alter,String Geschlecht)
+public static int berechneGrundumsatz (double Gewicht,double Größe,int Alter,String Geschlecht)
 {
 	double Größe_cm = Größe*100;
-	double Grundumsatz_d = (10*Gewicht)+(6.25*Größe_cm)-(5*alter);
+	double Grundumsatz_d = (10*Gewicht)+(6.25*Größe_cm)-(5*Alter);
 	
 	if (Geschlecht=="männlich")
 	{ Grundumsatz_d = Grundumsatz_d+5;}
@@ -356,17 +356,14 @@ public static void AusgabeProfil(String name, int Alter, double Größe,double G
 	System.out.println("");
 	
 }
-public static double berechnehöherenBMI (double BMInormalgewicht_ug)
-{  double nächsteKlasse = BMInormalgewicht_ug+5;
-   return nächsteKlasse;}
 public static void AusgabeBMItabelle(String Altersgruppe,double bmi,double Größe)
 {
     double BMInormalgewicht_ug = ordneBMIderAltersgruppezu (Altersgruppe,bmi);//BMI Wert abhängig vom Alter zuordnen
 	//BMI Werte für die Tabelle errechnen
-	double BMInormalgewicht_og = berechnehöherenBMI(BMInormalgewicht_ug);
-	double BMIübergewicht_ug   = BMInormalgewicht_og+0.1;//Untere Grenze der nächsthöheren klasse sind plus 0.1
-	double BMIübergewicht_og   = BMInormalgewicht_og+5;//
-	double BMIadipositas       = BMIübergewicht_og+0.1;
+	double BMInormalgewicht_og = BMInormalgewicht_ug+5;
+	double BMIübergewicht_ug   = BMInormalgewicht_ug+5.1;
+	double BMIübergewicht_og   = BMInormalgewicht_ug+10;
+	double BMIadipositas       = BMInormalgewicht_ug+10.1;
 		
     //Gewichte für die Tabelle errechnen
 	double normalgewicht_ug = BMInormalgewicht_ug*(Größe*Größe); 
@@ -398,6 +395,7 @@ public static void AusgabeBMItabelle(String Altersgruppe,double bmi,double Grö�
 	{ einordnungBMI = " → Adipositas";}
 		
 	System.out.println("");
+	
 	System.out.println("                  Dein BMI   : "+bmi+einordnungBMI);
 	System.out.println("                  Der BMI für die "+Altersgruppe+" wird folgendermaßen interpretiert:");
 	System.out.println("");

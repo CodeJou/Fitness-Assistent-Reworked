@@ -5,57 +5,33 @@ public class fitness_assistent_reworked {
 	public static void main(String[] args) {
 
 // AB HIER STARTET EINGABEBEREICH
-		// (1) Begrüßung
-		System.out.println("Hallo, ich bin dein Fitnessassistent. Wie heißt du?");
 		Scanner scanner = new Scanner(System.in);
-		String name = scanner.nextLine();
-		System.out.println("");
-		System.out.println("Hey " + name + ", hier kannst du deinen BMI (Body-Mass-Index) berechnen.");
+		//(1) Begrüßung
+		begruessung(scanner);
+		String namen = leseNamen(scanner);
 
-		// (2)Abfrage Größe
-		System.out.println("Wie größ bist du? (z.B 1.64 m)");
-
-		// Eingabe lesen/prüfen
+		//(2) Abfrage Größe
+		abfrageGroesse();
+        // Eingabe lesen/prüfen
 		double groeße = leseGroeße(scanner);
 
-		// (3) Abfrage Gewicht
-		System.out.println("");
-		System.out.println("Wieviel wiegst du? (Gib dein Gewicht in kg an)");
-
-		// Eingabe lesen/prüfen
+		//(3) Abfrage Gewicht
+		abfrageGewicht();
+        //Eingabe lesen/prüfen
 		double gewicht = leseGewicht(scanner);
 
-		// (4) Abfrage Alter
-		System.out.println("");
-		System.out.println("Wie alt bist du? (Runde dein Alter auf eine ganze Zahl auf)");
-
-		// Eingabe lesen/prüfen
+		//(4) Abfrage Alter
+		abfrageAlter();
+        // Eingabe lesen/prüfen
 		int alter = leseAlter(scanner);
 
-		// (5) Abfrage Geschlecht
-		System.out.println("");
-		System.out.println("Was möchtest du für ein Geschlecht angeben?");
-		System.out.println("Folgende Auswahlmöglichkeiten hast du:");
-		System.out.println("");
-		System.out.println("m steht für männlich");
-		System.out.println("w steht für weiblich");
-		System.out.println("d steht für divers");
-		System.out.println("");
-		System.out.println("Bitte gib jetzt den für dich passenden Buchstaben ein:");
-
+		//(5) Abfrage Geschlecht
+		abfrageGeschlecht();
 		// Eingabe lesen/prüfen
 		String geschlecht = leseGeschlecht(scanner);
 
-		// (6) Abfrage PAL Wert Aktivitätsfaktor
-		System.out.println("");
-		System.out.println("Wähle dein ungefaires Aktivitätsniveau.");
-		System.out.println("1 - Nur sitzend, kaum Freizeitaktivität zB Bürojob");
-		System.out.println("2 - Sitzend, etwas Aktivität z.B Studierende, Verkäufer");
-		System.out.println("3 - Stehend und gehend, z.B. Handwerker, Gastronomie");
-		System.out.println("4 - Körperlich anstrengend, z.B. Bauarbeiter, Leistungssportler");
-		System.out.println("");
-		System.out.println("Bitte gib jetzt die für dich passende Zahl ein:");
-
+		//(6) Abfrage PAL Wert Aktivitätsfaktor
+		abfrageAktivitätsfaktor();
 		// Eingabe lesen/prüfen
 		int pal = lesePAL(scanner);
 
@@ -77,7 +53,7 @@ public class fitness_assistent_reworked {
 
 //AB HIER AUSGABE
 		// Ausgabe Profil
-		ausgabeProfil(name, alter, groeße, gewicht, geschlecht);
+		ausgabeProfil(alter, groeße, gewicht, geschlecht, namen);
 
 		// Ausgabe der BMI-Tabelle
 		ausgabeBMItabelle(altersgruppe, bmi, groeße);
@@ -91,6 +67,26 @@ public class fitness_assistent_reworked {
 
 //AB HIER METHODEN	
 //Methoden zum Bereich "Eingabe"
+	//(1) Begrüßung
+	public static void begruessung(Scanner scanner)
+		{
+			System.out.println("Hallo, ich bin dein Fitnessassistent. Wie heißt du?");
+			String name = leseNamen(scanner);
+			System.out.println("");
+			System.out.println("Hey " + name + ", hier kannst du deinen BMI (Body-Mass-Index) berechnen.");
+		}
+	//lese Namen ein
+	public static String leseNamen(Scanner scanner)
+		{
+			String name = scanner.nextLine();
+			System.out.println("");
+			return name;
+		}
+	//(2) Abfrage Größe
+	public static void abfrageGroesse()
+	{
+		System.out.println("Wie größ bist du? (z.B 1.64 m)");
+	}
 	// (2)
 	public static double bereinigegroeße(String groeße_string)// Hilfsmethode bereinigt String Größe
 	{
@@ -140,7 +136,12 @@ public class fitness_assistent_reworked {
 		}
 		return groeße;
 	}
-
+	//(3) Abfrage Gewicht
+	public static void abfrageGewicht()
+	{
+		System.out.println("");
+		System.out.println("Wieviel wiegst du? (Gib dein Gewicht in kg an)");
+	}
 	// (3)
 	public static double bereinigeGewicht(String gewicht_string)// Hilfsmethode Gewicht
 	{
@@ -170,7 +171,12 @@ public class fitness_assistent_reworked {
 		}
 		return gewicht;
 	}
-
+	//(4)Abfrage Alter
+	public static void abfrageAlter()
+	{
+		System.out.println("");
+		System.out.println("Wie alt bist du? (Runde dein Alter auf eine ganze Zahl auf)");	
+	}
 	// (4)
 	public static int pruefeWertebereichAlter(int alter, Scanner scanner)// Hilfsmethode um Wertebereich Alter zu prüfen
 	{
@@ -184,7 +190,7 @@ public class fitness_assistent_reworked {
 		return alter;
 	}
 
-	// (5)
+	// (4)
 	public static int leseAlter(Scanner scanner) {
 		int alter;
 		try {
@@ -199,7 +205,20 @@ public class fitness_assistent_reworked {
 		}
 		return alter;
 	}
+	//(5) Abfrage Geschlecht
+	public static void abfrageGeschlecht()
+	{
+		System.out.println("");
+		System.out.println("Was möchtest du für ein Geschlecht angeben?");
+		System.out.println("Folgende Auswahlmöglichkeiten hast du:");
+		System.out.println("");
+		System.out.println("m steht für männlich");
+		System.out.println("w steht für weiblich");
+		System.out.println("d steht für divers");
+		System.out.println("");
+		System.out.println("Bitte gib jetzt den für dich passenden Buchstaben ein:");
 
+	}
 	// (5)
 	public static String leseGeschlecht(Scanner scanner) {
 		String geschlecht;
@@ -216,7 +235,19 @@ public class fitness_assistent_reworked {
 		}
 		return geschlecht;
 	}
+	//(6) Abfrage Aktivitätsfaktor
+	public static void abfrageAktivitätsfaktor()
+	{
+		System.out.println("");
+		System.out.println("Wähle dein ungefaires Aktivitätsniveau.");
+		System.out.println("1 - Nur sitzend, kaum Freizeitaktivität zB Bürojob");
+		System.out.println("2 - Sitzend, etwas Aktivität z.B Studierende, Verkäufer");
+		System.out.println("3 - Stehend und gehend, z.B. Handwerker, Gastronomie");
+		System.out.println("4 - Körperlich anstrengend, z.B. Bauarbeiter, Leistungssportler");
+		System.out.println("");
+		System.out.println("Bitte gib jetzt die für dich passende Zahl ein:");
 
+	}
 	// (6)
 	public static int pruefeWertebereichPAL(int pal, Scanner scanner)// Hilfsmethode prüft Wertebereich PAL
 	{
@@ -354,9 +385,11 @@ public class fitness_assistent_reworked {
 	}
 
 //Methoden zum Bereich Ausgabe
-	public static void ausgabeProfil(String name, int alter, double groeße, double gewicht, String geschlecht) {
+	public static void ausgabeProfil(int alter, double groeße, double gewicht, String geschlecht, String namen) {
+		
+		
 		System.out.println("");
-		System.out.println("");
+	    System.out.println("");
 		System.out.println(
 				"————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————");
 		System.out.println("");
@@ -364,7 +397,7 @@ public class fitness_assistent_reworked {
 		System.out
 				.println("Nachfolgend siehst du deine Körperwerte und den daraus resultierenden BMI (Body-Mass-Index)");
 		System.out.println("");
-		System.out.println("                  Name       : " + name);
+		System.out.println("                  Name       : " + namen);
 		System.out.println("                  Alter      : " + alter + " Jahre");
 		System.out.println("                  Größe      : " + groeße + " m");
 		System.out.println("                  Gewicht    : " + gewicht + " kg");
@@ -500,4 +533,5 @@ public class fitness_assistent_reworked {
 
 	}
 
+	
 }// schließt Klasse ab
